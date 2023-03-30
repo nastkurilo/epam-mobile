@@ -1,2 +1,2 @@
-# Test Automation Framework
+# Test Automation Framework for mobile testing
 
