@@ -6,6 +6,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import testing.configuration.AddressConfiguration;
 import testing.configuration.CapabilitiesConfigurator;
 import testing.configuration.ConfigurationReader;
@@ -19,6 +20,7 @@ public class DriverManager {
     private static final Logger LOG = LogManager.getRootLogger();
     private static final EnvironmentType ENVIRONMENT_TYPE = EnvironmentType.valueOf(ConfigurationReader.get().environment().toUpperCase());
     private static AppiumDriver<MobileElement> driver;
+    private static WebDriverWait wait;
 
     private DriverManager() {
     }
@@ -42,6 +44,13 @@ public class DriverManager {
         LOG.info("Driver is created");
         LOG.info("Environment type is {}", ENVIRONMENT_TYPE);
         return driver;
+    }
+
+    public static WebDriverWait getWebDriverWait(int timeLimitInSeconds) {
+        if (wait == null) {
+            wait = new WebDriverWait(getDriver(), timeLimitInSeconds);
+        }
+        return wait;
     }
 
     public static void closeDriver() {

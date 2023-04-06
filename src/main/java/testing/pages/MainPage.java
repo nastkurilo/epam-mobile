@@ -1,30 +1,46 @@
 package testing.pages;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.pagefactory.AndroidBy;
-import io.appium.java_client.pagefactory.AndroidFindBy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import testing.utils.WaitingUtils;
 
 public class MainPage extends BasePage{
 
-    @AndroidBy(id = "onBoarding-btn-skip")
-    private MobileElement skipButton;
+    private static final Logger LOG = LogManager.getRootLogger();
 
-    @AndroidBy(xpath = "//*[@resource-id='button_stretched']")
-    private MobileElement nextButton;
+    public MobileElement skipButton() {
+        return driver.findElementByXPath("//android.view.ViewGroup[@content-desc='onBoarding-btn-skip']");
+    }
 
-    @AndroidBy(xpath = "//*[@resource-id='button_stretched'][1]")
-    private MobileElement logInButton;
+    public MobileElement nextButton() {
+        return driver.findElementByXPath("//android.widget.TextView[@text='Next']");
+    }
 
-    @AndroidFindBy(id = "//*[@resource-id='button_stretched'][2]")
-    private MobileElement signUpButton;
+    public MobileElement logInButton() {
+        return WaitingUtils.waitForVisibleOfElement(driver.findElementByXPath("//android.widget.TextView[@text='Log In']"));
+    }
+
+    public MobileElement signUpButton() {
+        return WaitingUtils.waitForVisibleOfElement(driver.findElementByXPath("//android.widget.TextView[@text='Sign Up']"));
+    }
 
     public LogInPage clickLogInButton() {
-        logInButton.click();
+        logInButton().click();
         return new LogInPage();
     }
 
+    public void clickSkipButton() {
+        WaitingUtils.waitForVisibleOfElement(skipButton()).click();
+    }
+
+    public MainPage clickNextButton() {
+        nextButton().click();
+        return this;
+    }
+
     public SignUpPage clickSignUpButton() {
-        signUpButton.click();
+        signUpButton().click();
         return new SignUpPage();
     }
 

@@ -1,26 +1,33 @@
 package testing.pages;
 
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.pagefactory.AndroidFindBy;
 
 public class LogInPage extends BasePage {
 
-    @AndroidFindBy(id = "username")
-    private MobileElement userNameField;
+    public MobileElement userNameField() {
+        return driver.findElementById("username");
+    }
 
-    @AndroidFindBy(id = "kc-login-next")
-    private MobileElement continueButton;
+    public MobileElement continueButton() {
+        return driver.findElementById("kc-login-next");
+    }
 
-    @AndroidFindBy(id = "form-login-social-show-more")
-    private MobileElement showMoreButton;
+    public MobileElement showMoreButton() {
+        return driver.findElementById("form-login-social-show-more");
+    }
 
     public LogInPage setUserNameField(String user) {
-        userNameField.sendKeys(user);
+        userNameField().sendKeys(user);
         return this;
     }
 
     public LogInPage clickContinue() {
-        continueButton.click();
+        continueButton().click();
+        return this;
+    }
+
+    public LogInPage clickShowMoreButton() {
+        showMoreButton().click();
         return this;
     }
 
