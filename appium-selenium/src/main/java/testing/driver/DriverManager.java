@@ -14,6 +14,7 @@ import testing.configuration.EnvironmentType;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public class DriverManager {
 
@@ -32,11 +33,19 @@ public class DriverManager {
         return driver;
     }
 
+    public static WebDriverWait getWebDriverWait(int seconds) {
+        if (wait == null) {
+            wait = new WebDriverWait(getDriver(),seconds);
+        }
+        return wait;
+    }
+
     private static AppiumDriver<MobileElement> createDriver() {
         switch (ENVIRONMENT_TYPE) {
             case LOCAL:
                 driver = new AndroidDriver<>(AddressConfiguration.getAppiumDriverLocalService(ConfigurationReader.get().appiumPort()),
                         CapabilitiesConfigurator.getLocalCapabilities());
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 break;
             default:
                 throw new IllegalArgumentException(String.format("Unexpected environment value: %s", ENVIRONMENT_TYPE));
@@ -44,13 +53,6 @@ public class DriverManager {
         LOG.info("Driver is created");
         LOG.info("Environment type is {}", ENVIRONMENT_TYPE);
         return driver;
-    }
-
-    public static WebDriverWait getWebDriverWait(int timeLimitInSeconds) {
-        if (wait == null) {
-            wait = new WebDriverWait(getDriver(), timeLimitInSeconds);
-        }
-        return wait;
     }
 
     public static void closeDriver() {

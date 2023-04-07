@@ -14,7 +14,6 @@ public class LogInTest extends BaseTest {
 //        mainPage.clickNextButton();
         assertions.assertThatElementIsVisible(mainPage.logInButton());
         assertions.assertThatElementIsVisible(mainPage.signUpButton());
-
     }
 
 }
